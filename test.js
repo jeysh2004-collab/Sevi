@@ -1,0 +1,11 @@
+const B=require('./public/brain.js');let bad=0;const eq=(n,a,e)=>{const ok=JSON.stringify(a)===JSON.stringify(e);if(!ok)bad++;console.log(ok?'PASS':'FAIL',n,ok?'':`got ${JSON.stringify(a)} want ${JSON.stringify(e)}`)};
+const T=(t,o)=>B.tag(t,o);
+eq('name called',T('Ravi, please come to the front',{names:['ravi']}).name,true);
+eq('name Tamil',T('ரவி இங்கே வாங்க',{names:['ரவி']}).name,true);
+eq('name absent',T('Everyone please sit',{names:['ravi']}).name,false);
+eq('question',T('Is the exam tomorrow?').q,true);eq('action',T('We will submit the assignment on Friday.').act,true);eq('date',T('The deadline is next week.').date,true);eq('date Hindi',T('परीक्षा कल है').date,true);eq('date Tamil',T('நாளை தேர்வு').date,true);
+eq('keyword',T('The release has a critical bug',{kws:['bug','deploy']}).kws,['bug']);eq('no partial kw',T('debugging session',{kws:['bug']}).kws,[]);
+eq('fix Kubernetes',B.fix('we use cubernetes and docker','Kubernetes Docker'.split(' ')),'we use Kubernetes and Docker');eq('fix keeps doctor',B.fix('the doctor said','Docker'.split(' ')),'the doctor said');eq('fix case',B.fix('use kubernetes','Kubernetes'.split(' ')),'use Kubernetes');
+const L=['The API gateway handles authentication for every API request.','Is the API rate limited?','We will deploy the gateway on Friday.','Authentication tokens expire after one hour.'].map(t=>({text:t,tags:T(t)}));const N=B.notes(L);
+eq('notes q',N.questions.length,1);eq('notes act',N.actions.length,1);eq('notes date',N.dates.length,1);eq('notes terms has api',N.keyTerms.includes('api'),true);eq('notes summary',N.summary.length,3);
+process.exit(bad?1:0);

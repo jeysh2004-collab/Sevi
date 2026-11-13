@@ -1,0 +1,1 @@
+{"name":"sevi","version":"1.0.0","description":"Sevi: live captions for Indian-language and code-mixed speech, smart notes and a voice for deaf and hard-of-hearing students and IT professionals (Gnani.ai Prisma STT + Timbre TTS)","scripts":{"start":"node server.js","test":"node test.js"},"engines":{"node":">=18"}}
